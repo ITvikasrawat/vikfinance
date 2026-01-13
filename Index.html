@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Finance Tracker</title>
     
-    <!-- ✅ Favicon Added (Chart Emoji) -->
+    <!-- ✅ Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
     
     <!-- Dependencies -->
@@ -18,13 +18,6 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        primary: '#4f46e5',
-                        danger: '#ef4444',
-                        success: '#10b981',
-                        bg_body: '#f8fafc',
-                        surface: '#ffffff'
-                    },
                     fontFamily: { 
                         sans: ['Outfit', 'sans-serif'],
                         mono: ['Roboto', 'monospace']
@@ -45,8 +38,8 @@
 
         /* --- Header & Cards --- */
         .glass-header {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
@@ -55,70 +48,63 @@
             box-shadow: 0 10px 30px -10px rgba(79, 70, 229, 0.5);
         }
 
-        /* --- Daily Group Header --- */
+        /* --- 🛠️ FIXED TRANSACTION LIST STYLES --- */
+        
+        /* Date Header (Sticky Top) */
         .day-header {
-            background: #fff;
+            background: rgba(248, 250, 252, 0.95);
+            backdrop-filter: blur(5px);
             padding: 10px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
-            z-index: 5;
-            border-bottom: 1px solid #f1f5f9;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            z-index: 10;
+            border-bottom: 1px solid #e2e8f0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
         }
         
-        .date-block { display: flex; align-items: baseline; gap: 4px; }
-        .date-day { font-size: 1.3rem; font-weight: 800; font-family: 'Roboto', sans-serif; color: #1e293b; line-height: 1; }
-        .day-badge { font-size: 0.65rem; font-weight: 700; color: white; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; transform: translateY(-2px); }
-        .date-full { font-size: 0.75rem; color: #94a3b8; font-weight: 500; }
+        .date-block { display: flex; align-items: baseline; gap: 6px; }
+        .date-day { font-size: 1.4rem; font-weight: 800; font-family: 'Roboto', sans-serif; color: #1e293b; line-height: 1; }
+        .day-badge { font-size: 0.65rem; font-weight: 700; color: white; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; transform: translateY(-3px); }
+        .date-full { font-size: 0.75rem; color: #94a3b8; font-weight: 600; }
 
-        /* --- Entry Row (Mobile Optimized) --- */
+        /* Entry Row (Flex Layout Fixed) */
         .entry-row {
             background: #fff;
             padding: 12px 16px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px; /* Gap between icon and text */
             border-bottom: 1px solid #f1f5f9;
             transition: background 0.1s;
         }
         .entry-row:active { background: #f8fafc; }
 
-        /* 1. Icon Column */
+        /* Icon Column */
         .col-icon {
-            width: 40px; height: 40px;
-            border-radius: 12px;
+            width: 44px; height: 44px;
+            border-radius: 50%; /* Circular Icon */
             background: #f8fafc;
+            border: 1px solid #f1f5f9;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
+            font-size: 1.3rem;
+            flex-shrink: 0; /* Prevent shrinking */
         }
 
-        /* 2. Text Column (Flex Grow to take space) */
+        /* Text Column (Takes remaining space) */
         .col-text {
             flex: 1;
-            min-width: 0; /* Important for truncation */
+            min-width: 0; /* Enable truncation */
             display: flex; flex-direction: column; justify-content: center;
         }
-        .text-main { 
-            font-size: 0.95rem; font-weight: 600; color: #334155; 
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
-            margin-bottom: 2px;
-        }
-        .text-sub { 
-            font-size: 0.75rem; color: #94a3b8; 
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
-            display: flex; align-items: center; gap: 4px;
-        }
 
-        /* 3. Amount Column (Fixed width, Right align) */
+        /* Amount Column (Right Aligned) */
         .col-amt {
             text-align: right;
             flex-shrink: 0;
         }
-        .amt-val { font-size: 0.95rem; font-weight: 700; font-family: 'Roboto', sans-serif; white-space: nowrap; }
 
         /* --- Components --- */
         .fab {
@@ -131,153 +117,109 @@
         }
         .fab:active { transform: scale(0.95); }
 
+        /* Modal Styles */
         .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px);
-            z-index: 100; opacity: 0; visibility: hidden; transition: 0.2s;
-            display: flex; align-items: flex-end;
+            background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px);
+            opacity: 0; visibility: hidden; transition: 0.3s ease;
         }
         .modal-overlay.active { opacity: 1; visibility: visible; }
-        .modal-card {
-            background: white; width: 100%; border-radius: 24px 24px 0 0;
-            padding: 24px; max-height: 90vh; overflow-y: auto;
-            transform: translateY(100%); transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
+        .modal-card { transform: translateY(100%); transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         .modal-overlay.active .modal-card { transform: translateY(0); }
-
-        .input-box {
-            width: 100%; padding: 14px; background: #f8fafc;
-            border: 1px solid #e2e8f0; border-radius: 12px;
-            font-size: 1rem; color: #0f172a; outline: none; font-weight: 500;
-        }
-        .input-box:focus { border-color: #4f46e5; background: #fff; }
-
-        .month-select {
-            appearance: none; background: #f1f5f9; border: none;
-            padding: 6px 28px 6px 12px; border-radius: 20px;
-            font-size: 0.85rem; font-weight: 700; color: #334155;
-            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23334155%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-            background-repeat: no-repeat; background-position: right 10px top 50%; background-size: 10px auto;
-        }
-
+		
+		/* --- HIDE INPUT SPINNERS (Arrows) --- */
+		/* Chrome, Safari, Edge, Opera */
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+		/* Firefox */
+		input[type=number] {
+			-moz-appearance: textfield;
+		}
+		
     </style>
 </head>
 <body class="font-sans text-slate-800 h-screen flex flex-col overflow-hidden">
 
-    <!-- HEADER -->
+    <!-- Header -->
     <header class="fixed top-0 w-full glass-header z-40">
         <div class="flex justify-between items-center px-5 py-3 max-w-lg mx-auto">
             <div>
-                <h1 class="font-heading font-extrabold text-lg text-slate-900">Vikas • <span class="text-indigo-600">Dashboard</span></h1>
+                <h1 class="font-bold text-lg text-slate-900">Vikas • <span class="text-indigo-600">Dashboard</span></h1>
                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Online
+                    <span id="sync-indicator" class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 
+                    <span id="sync-text">Online</span>
                 </p>
             </div>
-            <select id="monthFilter" class="month-select" onchange="handleMonthChange()">
-                <!-- Populated by JS -->
-            </select>
+            <div class="relative">
+                <select id="monthFilter" class="bg-slate-100 text-slate-700 font-bold text-xs py-1.5 pl-3 pr-8 rounded-full outline-none appearance-none" onchange="handleMonthChange()"></select>
+                <i class="fas fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-slate-400 pointer-events-none"></i>
+            </div>
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
+    <!-- Main Content -->
     <main class="flex-1 overflow-y-auto pt-16 pb-20 w-full no-scrollbar bg-slate-50" id="main-scroll">
         
-        <!-- ================= HOME TAB ================= -->
+        <!-- HOME TAB -->
         <div id="tab-home" class="tab-content active">
             
             <!-- Hero Card -->
-            <!-- AFTER CODE (New Modern Layout) -->
-<div class="px-4 mt-4 mb-6">
-    <div class="hero-card rounded-[32px] p-6 text-white relative overflow-hidden shadow-2xl shadow-indigo-500/20">
-        <!-- Abstract Background Shapes -->
-        <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
-            <div class="absolute -top-10 -left-10 w-40 h-40 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-            <div class="absolute top-0 -right-10 w-40 h-40 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style="animation-delay: 2s"></div>
-        </div>
-
-        <div class="relative z-10 flex flex-col items-center text-center">
-            <!-- Centered Balance -->
-            <p class="text-indigo-100 text-[11px] font-bold uppercase tracking-[0.2em] mb-2 opacity-80">Net Balance</p>
-            <h2 class="text-[2.5rem] font-black tracking-tight leading-none mb-8 drop-shadow-sm" id="net-balance">₹0</h2>
-            
-            <!-- Modern Glass Stats Row -->
-            <div class="w-full bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex justify-between items-center shadow-lg">
-                <!-- Income -->
-                <div class="flex flex-col items-center flex-1">
-                    <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center mb-1 text-emerald-300">
-                        <i class="fas fa-arrow-down text-xs"></i>
+            <div class="px-4 mt-4 mb-6">
+                <div class="hero-card rounded-[32px] p-6 text-white relative overflow-hidden">
+                    <div class="absolute -top-10 -left-10 w-40 h-40 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+                    <div class="relative z-10 flex flex-col items-center text-center">
+                        <p class="text-indigo-100 text-[11px] font-bold uppercase tracking-[0.2em] mb-2 opacity-80">Net Balance</p>
+                        <h2 class="text-[2.5rem] font-black tracking-tight leading-none mb-8 drop-shadow-sm" id="net-balance">₹0</h2>
+                        
+                        <div class="w-full bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex justify-between items-center">
+                            <div class="flex flex-col items-center flex-1">
+                                <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center mb-1 text-emerald-300"><i class="fas fa-arrow-down text-xs"></i></div>
+                                <p class="text-[10px] text-indigo-100 mb-0.5">Income</p>
+                                <p class="text-sm font-bold truncate px-1" id="total-income">₹0</p>
+                            </div>
+                            <div class="w-px h-8 bg-white/10"></div>
+                            <div class="flex flex-col items-center flex-1">
+                                <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center mb-1 text-rose-300"><i class="fas fa-arrow-up text-xs"></i></div>
+                                <p class="text-[10px] text-indigo-100 mb-0.5">Expense</p>
+                                <p class="text-sm font-bold truncate px-1" id="total-expense">₹0</p>
+                            </div>
+                            <div class="w-px h-8 bg-white/10"></div>
+                            <div class="flex flex-col items-center flex-1">
+                                <div class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center mb-1 text-amber-300"><i class="fas fa-chart-pie text-xs"></i></div>
+                                <p class="text-[10px] text-indigo-100 mb-0.5">Invest</p>
+                                <p class="text-sm font-bold truncate px-1" id="total-invest">₹0</p>
+                            </div>
+                        </div>
                     </div>
-                    <p class="text-[10px] text-indigo-100 font-medium mb-0.5">Income</p>
-                    <p class="text-sm font-bold truncate w-full px-1" id="total-income">₹0</p>
-                </div>
-
-                <!-- Divider -->
-                <div class="w-px h-8 bg-white/10"></div>
-
-                <!-- Expense -->
-                <div class="flex flex-col items-center flex-1">
-                    <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center mb-1 text-rose-300">
-                        <i class="fas fa-arrow-up text-xs"></i>
-                    </div>
-                    <p class="text-[10px] text-indigo-100 font-medium mb-0.5">Expense</p>
-                    <p class="text-sm font-bold truncate w-full px-1" id="total-expense">₹0</p>
-                </div>
-
-                <!-- Divider -->
-                <div class="w-px h-8 bg-white/10"></div>
-
-                <!-- Invest -->
-                <div class="flex flex-col items-center flex-1">
-                    <div class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center mb-1 text-amber-300">
-                        <i class="fas fa-chart-pie text-xs"></i>
-                    </div>
-                    <p class="text-[10px] text-indigo-100 font-medium mb-0.5">Invest</p>
-                    <p class="text-sm font-bold truncate w-full px-1" id="total-invest">₹0</p>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
 
-            <!-- Loader -->
-            <div id="loader" class="text-center py-6">
-                <i class="fas fa-circle-notch fa-spin text-indigo-500 text-xl"></i>
-            </div>
-
-            <!-- Transactions List -->
+            <!-- Transaction List -->
             <div id="transaction-container"></div>
             
+            <!-- Empty State -->
             <div id="no-data" class="hidden text-center py-10 opacity-50">
                 <i class="fas fa-receipt text-3xl text-slate-300 mb-2"></i>
-                <p class="text-xs font-bold text-slate-400">No data found for this month</p>
+                <p class="text-xs font-bold text-slate-400">No data found</p>
             </div>
         </div>
 
-        <!-- ================= STATS TAB ================= -->
+        <!-- STATS TAB -->
         <div id="tab-stats" class="tab-content px-4 py-4">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="font-bold text-xl text-slate-900">Analytics</h2>
-                <button onclick="toggleChartLegend()" class="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-full">
-                    Toggle Legend
-                </button>
-            </div>
-
-            <div class="flex gap-2 mb-4">
-                <select id="statsType" onchange="renderStats()" class="bg-white border border-slate-200 text-slate-700 text-sm rounded-lg p-2.5 flex-1 font-bold outline-none">
-                    <option value="Expense">Expense</option>
-                    <option value="Income">Income</option>
-                    <option value="Investment">Invest</option>
-                </select>
-                <select id="statsGroup" onchange="renderStats()" class="bg-white border border-slate-200 text-slate-700 text-sm rounded-lg p-2.5 flex-1 font-bold outline-none">
-                    <option value="category">Category</option>
-                    <option value="sub_category">Sub Cat</option>
-                </select>
+                <button onclick="toggleChartLegend()" class="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-full">Legend</button>
             </div>
             
+            <div class="flex gap-2 mb-4">
+                <select id="statsType" onchange="renderStats()" class="bg-white border border-slate-200 text-slate-700 text-sm rounded-lg p-2.5 flex-1 font-bold outline-none"><option value="Expense">Expense</option><option value="Income">Income</option><option value="Investment">Invest</option></select>
+                <select id="statsGroup" onchange="renderStats()" class="bg-white border border-slate-200 text-slate-700 text-sm rounded-lg p-2.5 flex-1 font-bold outline-none"><option value="category">Category</option><option value="sub_category">Sub Cat</option></select>
+            </div>
+
             <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-sm mb-6 relative">
-                <div class="h-64 relative">
-                    <canvas id="expenseChart"></canvas>
-                </div>
+                <div class="h-64 relative"><canvas id="expenseChart"></canvas></div>
                 <div class="absolute inset-0 flex items-center justify-center pointer-events-none mt-6">
                     <div class="text-center">
                         <p class="text-[10px] text-slate-400 font-bold uppercase">Total</p>
@@ -285,119 +227,113 @@
                     </div>
                 </div>
             </div>
-
             <div id="stats-list" class="space-y-3 pb-20"></div>
         </div>
-
     </main>
 
     <!-- FAB -->
     <button class="fab" onclick="openModal('add')"><i class="fas fa-plus"></i></button>
 
-    <!-- BOTTOM NAV -->
+    <!-- Bottom Nav -->
     <nav class="fixed bottom-0 w-full bg-white border-t border-slate-100 pb-safe z-50 h-16 flex items-center">
         <button class="flex-1 flex flex-col items-center justify-center text-indigo-600 transition" onclick="switchTab('home', this)">
-            <i class="fas fa-wallet text-xl mb-1"></i>
-            <span class="text-[10px] font-bold">Wallet</span>
+            <i class="fas fa-wallet text-xl mb-1"></i><span class="text-[10px] font-bold">Wallet</span>
         </button>
         <button class="flex-1 flex flex-col items-center justify-center text-slate-400 transition hover:text-indigo-600" onclick="switchTab('stats', this)">
-            <i class="fas fa-chart-pie text-xl mb-1"></i>
-            <span class="text-[10px] font-bold">Stats</span>
+            <i class="fas fa-chart-pie text-xl mb-1"></i><span class="text-[10px] font-bold">Stats</span>
         </button>
     </nav>
 
-    <!-- MODAL -->
-    <div class="modal-overlay" id="entryModal">
-        <div class="modal-card">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="font-bold text-xl text-slate-900" id="modalTitle">New Entry</h2>
-                <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center"><i class="fas fa-times"></i></button>
-            </div>
+    <!-- Modal (Vibrant & Compact) -->
+    <div id="entryModal" class="modal-overlay fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+        <div class="absolute inset-0 bg-transparent" onclick="closeModal()"></div>
+        <div id="modalCard" class="bg-white relative w-full sm:max-w-md rounded-t-[2.5rem] sm:rounded-3xl shadow-2xl flex flex-col max-h-[95vh] overflow-hidden transition-colors duration-300 modal-card">
+            
+            <!-- Header -->
+            <div id="modalHeader" class="py-8 px-6 transition-colors duration-300 flex flex-col items-center justify-center shrink-0 relative overflow-hidden bg-rose-500">
+                <button onclick="closeModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/20 text-white hover:bg-white/30 backdrop-blur-md flex items-center justify-center transition z-20">
+                    <i class="fas fa-times text-sm"></i>
+                </button>
 
-            <form id="entryForm" class="space-y-4">
-                <input type="hidden" id="entryId">
+                <div class="relative flex items-baseline justify-center mb-5 z-10">
+                    <span class="text-3xl font-bold text-white/70 mr-1">₹</span>
+                    <input type="number" id="amount" class="w-48 text-center text-6xl font-black text-white bg-transparent outline-none p-0 m-0 placeholder-white/30 drop-shadow-sm" placeholder="0" required>
+                </div>
 
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block">Type</label>
-                        <select id="type" class="input-box" required>
+                <div class="relative z-10">
+                    <div class="relative group">
+                        <select id="type" onchange="applyTheme(this.value)" class="appearance-none w-40 bg-white text-rose-600 font-bold text-sm py-3 px-6 rounded-full text-center outline-none shadow-lg shadow-black/10 border-2 border-transparent focus:border-white/50 transition-all cursor-pointer">
                             <option value="Expense">Expense</option>
                             <option value="Income">Income</option>
                             <option value="Investment">Investment</option>
                         </select>
+                        <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-[10px] text-slate-400 pointer-events-none"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Body -->
+            <div class="bg-white flex-1 rounded-t-[2rem] px-6 pt-8 pb-4 overflow-y-auto no-scrollbar relative z-10 -mt-6 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+                <form id="entryForm" class="space-y-4">
+                    <input type="hidden" id="entryId">
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Date</label>
+                            <input type="date" id="date" class="w-full bg-slate-50 text-slate-700 text-sm font-bold rounded-xl h-11 px-3 outline-none border border-slate-100 focus:border-indigo-500 focus:bg-white transition-colors">
+                        </div>
+                        <div class="relative">
+                            <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Account</label>
+                            <select id="account" class="w-full bg-slate-50 text-slate-700 text-sm font-bold rounded-xl h-11 px-3 outline-none border border-slate-100 focus:border-indigo-500 focus:bg-white transition-colors truncate pr-8">
+                                <option>Axis Bank</option><option>Cash</option><option>Flipkart Card</option><option>Amazon Card</option><option>Sunita</option><option>Other</option>
+                            </select>
+                            <i class="fas fa-wallet absolute right-3 top-[2.2rem] text-slate-400 text-xs pointer-events-none"></i>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="relative">
+                            <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Category</label>
+                            <select id="category" onchange="updateSubCategories()" class="w-full bg-slate-50 text-slate-700 text-sm font-bold rounded-xl h-11 px-3 outline-none border border-slate-100 focus:border-indigo-500 focus:bg-white transition-colors truncate pr-8">
+                                <option value="">Select</option><option>🏠 NEEDS</option><option>🎉 WANTS</option><option>📈 INVESTMENT</option><option>💰 Salary & Inc</option><option>🎁 Windfall</option><option>📈 Passive</option>
+                            </select>
+                            <i class="fas fa-layer-group absolute right-3 top-[2.2rem] text-slate-400 text-xs pointer-events-none"></i>
+                        </div>
+                        <div class="relative">
+                            <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Sub-Category</label>
+                            <select id="sub_category" class="w-full bg-slate-50 text-slate-700 text-sm font-bold rounded-xl h-11 px-3 outline-none border border-slate-100 focus:border-indigo-500 focus:bg-white transition-colors truncate pr-8">
+                                <option value="">Select</option>
+                            </select>
+                            <i class="fas fa-caret-down absolute right-3 top-[2.2rem] text-slate-400 text-sm pointer-events-none"></i>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Title</label>
+                        <input type="text" id="note" class="w-full bg-slate-50 text-slate-800 text-sm font-bold rounded-xl h-11 px-3 outline-none border border-slate-100 focus:border-indigo-500 focus:bg-white transition-colors" placeholder="E.g. Burger King" required>
                     </div>
                     <div>
-                        <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block">Date</label>
-                        <input type="date" id="date" class="input-box" required>
+                        <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Description <span class="opacity-50 font-normal">(Opt)</span></label>
+                        <input type="text" id="description" class="w-full bg-slate-50 text-slate-600 text-sm font-medium rounded-xl h-11 px-3 outline-none border border-slate-100 focus:border-indigo-500 focus:bg-white transition-colors" placeholder="Details...">
                     </div>
-                </div>
+                    <div class="h-2"></div>
+                </form>
+            </div>
 
-                <div>
-                    <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block">Amount</label>
-                    <div class="relative">
-                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">₹</span>
-                        <input type="number" id="amount" class="input-box pl-8 text-xl font-bold text-indigo-600" placeholder="0" required>
-                    </div>
+            <!-- Footer -->
+            <div class="p-4 bg-white border-t border-slate-50 shrink-0 pb-safe z-20">
+                <div class="flex gap-3">
+                    <button type="button" id="deleteBtn" onclick="deleteEntry()" class="hidden w-14 h-12 rounded-xl bg-slate-100 text-slate-500 hover:bg-rose-100 hover:text-rose-500 transition flex items-center justify-center"><i class="fas fa-trash-can text-lg"></i></button>
+                    <button onclick="document.getElementById('entryForm').requestSubmit()" id="saveBtn" class="flex-1 h-12 rounded-xl bg-rose-600 text-white font-bold text-sm tracking-wide shadow-lg active:scale-[0.98] transition flex items-center justify-center gap-2">UPDATE ENTRY</button>
                 </div>
-
-                <div>
-                    <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block">Note (Main Title)</label>
-                    <input type="text" id="note" class="input-box" placeholder="e.g. Office Lunch" required>
-                </div>
-
-                <div>
-                    <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block">Description (Details)</label>
-                    <input type="text" id="description" class="input-box" placeholder="e.g. Chole Bhature">
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block">Category</label>
-                        <select id="category" class="input-box" required onchange="updateSubCategories()">
-                            <option value="">Select</option>
-                            <option>🏠 NEEDS</option>
-                            <option>🎉 WANTS</option>
-                            <option>📈 INVESTMENT</option>
-                            <option>💰 Salary & Income</option>
-                            <option>🎁 Windfall</option>
-                            <option>📈 Passive</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block">Sub Cat</label>
-                        <select id="sub_category" class="input-box">
-                            <option value="">Select Cat First</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block">Account</label>
-                    <select id="account" class="input-box">
-                        <option>Axis Bank</option>
-                        <option>Cash</option>
-                        <option>Flipkart Axis Credit Card</option>
-                        <option>Amazon ICICI Credit Card</option>
-                        <option>Sunita</option>
-                        <option>Other</option>
-                    </select>
-                </div>
-
-                <div class="pt-2 flex gap-3">
-                    <button type="button" id="deleteBtn" onclick="deleteEntry()" class="hidden w-1/3 py-4 bg-rose-50 text-rose-600 rounded-xl font-bold text-sm">Delete</button>
-                    <button type="submit" id="saveBtn" class="flex-1 py-4 bg-indigo-600 text-white rounded-xl font-bold text-lg shadow-lg shadow-indigo-200">Save</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 
+    <!-- Script -->
     <script>
-        // ********************************************
-        // PASTE YOUR GOOGLE APPS SCRIPT URL HERE
-        // ********************************************
-        const API_URL = 'https://script.google.com/macros/s/AKfycbyP5LfSDcBteaExMJBsjJwX_pTOvO5JINMzOH2PnvYHFyzvA3uD_RrtWMiY-SGMIyeK/exec';
+        const API_URL = 'https://script.google.com/macros/s/AKfycbyP5LfSDcBteaExMJBsjJwX_pTOvO5JINMzOH2PnvYHFyzvA3uD_RrtWMiY-SGMIyeK/exec'; 
         const CACHE_KEY = 'finance_v3_cache';
-
         let allData = [];
         let currentFilter = { year: new Date().getFullYear(), month: new Date().getMonth() };
         let expenseChart = null;
@@ -420,104 +356,30 @@
 
         function loadFromCache() {
             const cached = localStorage.getItem(CACHE_KEY);
-            if(cached) {
-                allData = JSON.parse(cached);
-                initDynamicDropdown();
-                applyFilter();
-            } else {
-                initDynamicDropdown();
-            }
+            if(cached) { allData = JSON.parse(cached); initDynamicDropdown(); applyFilter(); }
+            else initDynamicDropdown();
         }
 
         async function fetchData() {
+            const indicator = document.getElementById('sync-indicator');
+            const text = document.getElementById('sync-text');
+            indicator.className = "w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping"; text.innerText = "Syncing...";
             try {
                 const res = await fetch(API_URL);
                 const json = await res.json();
                 if(json.status === 'success') {
                     allData = json.data.filter(i => i.Amount);
                     localStorage.setItem(CACHE_KEY, JSON.stringify(allData));
-                    initDynamicDropdown();
-                    applyFilter();
+                    initDynamicDropdown(); applyFilter();
                 }
-            } catch(e) { console.error(e); }
-            finally { document.getElementById('loader').classList.add('hidden'); }
+            } catch(e) { console.error("Sync Error:", e); }
+            finally { indicator.className = "w-1.5 h-1.5 rounded-full bg-emerald-500"; text.innerText = "Online"; }
         }
 
-        function initDynamicDropdown() {
-            const select = document.getElementById('monthFilter');
-            const currentSelection = select.value;
-            select.innerHTML = ''; 
-
-            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            const uniqueMonths = new Set();
-            const today = new Date();
-            uniqueMonths.add(`${today.getFullYear()}-${today.getMonth()}`);
-
-            allData.forEach(item => {
-                if(!item.Date) return;
-                const d = parseDate(item.Date);
-                uniqueMonths.add(`${d.getFullYear()}-${d.getMonth()}`);
-            });
-
-            const sortedMonths = Array.from(uniqueMonths).sort((a,b) => {
-                const [y1, m1] = a.split('-').map(Number);
-                const [y2, m2] = b.split('-').map(Number);
-                return (y2 - y1) || (m2 - m1);
-            });
-
-            sortedMonths.forEach(key => {
-                const [year, monthIdx] = key.split('-').map(Number);
-                const yy = year.toString().slice(-2);
-                const label = `${monthNames[monthIdx]} ${yy}`;
-                
-                const option = document.createElement('option');
-                option.value = key;
-                option.text = label;
-                select.appendChild(option);
-            });
-
-            if (currentSelection && Array.from(select.options).some(o => o.value === currentSelection)) {
-                select.value = currentSelection;
-            } else {
-                if(select.options.length > 0) {
-                    select.selectedIndex = 0;
-                    handleMonthChange();
-                }
-            }
-        }
-
-        function handleMonthChange() {
-            const val = document.getElementById('monthFilter').value;
-            if(!val) return;
-            const [y, m] = val.split('-');
-            currentFilter = { year: parseInt(y), month: parseInt(m) };
-            applyFilter();
-        }
-
-        function parseDate(str) {
-            if(!str) return new Date();
-            if(str.includes('/')) {
-                const parts = str.split(' ')[0].split('/');
-                return new Date(parts[2], parts[1]-1, parts[0]);
-            }
-            return new Date(str);
-        }
-
-        function applyFilter() {
-            const filtered = allData.filter(item => {
-                const d = parseDate(item.Date);
-                return d.getFullYear() === currentFilter.year && d.getMonth() === currentFilter.month;
-            });
-            filtered.sort((a, b) => parseDate(b.Date) - parseDate(a.Date));
-            renderList(filtered);
-            calculateStats(filtered);
-            if(document.getElementById('tab-stats').style.display === 'block') renderStats();
-        }
-
+        // --- 📊 RENDER LIST (FIXED) ---
         function renderList(data) {
             const container = document.getElementById('transaction-container');
             container.innerHTML = '';
-            
             if(data.length === 0) { document.getElementById('no-data').classList.remove('hidden'); return; }
             document.getElementById('no-data').classList.add('hidden');
 
@@ -527,26 +389,21 @@
                 const key = `${dObj.getFullYear()}-${dObj.getMonth()}-${dObj.getDate()}`;
                 if(!grouped[key]) grouped[key] = { date: dObj, items: [], in: 0, out: 0 };
                 grouped[key].items.push(item);
-                
                 let val = parseFloat(String(item.Amount).replace(/,/g, '')) || 0;
-                if(item.Type === 'Income') grouped[key].in += val;
-                else grouped[key].out += val;
+                if(item.Type === 'Income') grouped[key].in += val; else grouped[key].out += val;
             });
 
             const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
             Object.values(grouped).forEach(group => {
                 const d = group.date;
                 const dayName = dayNames[d.getDay()];
                 const dateNum = String(d.getDate()).padStart(2,'0');
-                const fullDate = `${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear()}`;
-                
+                const fullDate = `${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear().toString().slice(-2)}`;
                 const badgeColor = (dayName === "Sun") ? "bg-red-500" : "bg-blue-500";
                 
                 const groupDiv = document.createElement('div');
-                groupDiv.className = 'bg-white mb-2';
+                groupDiv.className = 'bg-white mb-2 shadow-sm rounded-xl overflow-hidden'; // Optional card look for group
 
-                // Optimized Daily Header with Labels "Inc:" / "Exp:"
                 let headerHtml = `
                     <div class="day-header">
                         <div class="date-block">
@@ -554,18 +411,14 @@
                             <span class="day-badge ${badgeColor}">${dayName}</span>
                             <span class="date-full">${fullDate}</span>
                         </div>
-                        <div class="flex flex-col items-end text-[10px] font-bold">
-                            ${group.in > 0 ? `<span class="text-emerald-600">Inc: ₹${group.in.toLocaleString()}</span>` : ''}
-                            ${group.out > 0 ? `<span class="text-rose-600">Exp: ₹${group.out.toLocaleString()}</span>` : ''}
+                        <div class="flex items-center gap-4">
+                            ${group.in > 0 ? `<div class="text-right"><p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider mb-0.5">IN</p><p class="text-xs font-black text-emerald-600">₹${group.in.toLocaleString()}</p></div>` : ''}
+                            ${group.out > 0 ? `<div class="text-right"><p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider mb-0.5">OUT</p><p class="text-xs font-black text-rose-500">₹${group.out.toLocaleString()}</p></div>` : ''}
                         </div>
-                    </div>
-                `;
-
+                    </div>`;
+                
                 let itemsHtml = '';
-                group.items.forEach(item => {
-                    itemsHtml += createEntryHTML(item);
-                });
-
+                group.items.forEach(item => { itemsHtml += createEntryHTML(item); });
                 groupDiv.innerHTML = headerHtml + '<div>' + itemsHtml + '</div>';
                 container.appendChild(groupDiv);
             });
@@ -580,163 +433,71 @@
 
         function createEntryHTML(item) {
             let emoji = '🛒';
-            if (item['Sub-Category']) {
-                const match = item['Sub-Category'].match(/[\p{Emoji}\u200d]+/u);
-                if (match) emoji = match[0];
-            }
+            if (item['Sub-Category']) { const match = item['Sub-Category'].match(/[\p{Emoji}\u200d]+/u); if (match) emoji = match[0]; }
             if (emoji === '🛒') {
                 if (item.Type === 'Income') emoji = '💰';
                 else if (item.Category.includes('INVEST')) emoji = '📈';
                 else if (item.Category.includes('WANTS')) emoji = '🎉';
             }
-
-            let catName = item.Category.replace(/[\p{Emoji}\u200d]+/u, '').trim().split(' ')[0];
-            let subName = item['Sub-Category'] ? item['Sub-Category'].replace(/[\p{Emoji}\u200d]+/u, '').trim() : '';
-            
             let mainTitle = item.Note && item.Note.trim() ? item.Note : item.Description;
-            let subTitle = item.Note && item.Note.trim() ? item.Description : item.Account;
-
-            let amtColor = item.Type === 'Income' ? 'text-emerald-600' : 'text-rose-500';
+            let subDesc = (item.Note && item.Note.trim() && item.Description && item.Description !== item.Note) ? item.Description : '';
+            let mainCat = item.Category.replace(/[\p{Emoji}\u200d]+/u, '').trim(); 
+            let subCat = item['Sub-Category'] ? item['Sub-Category'].replace(/[\p{Emoji}\u200d]+/u, '').trim() : '';
+            let amtColor = item.Type === 'Income' ? 'text-emerald-600' : 'text-slate-800';
             const safeItem = encodeURIComponent(JSON.stringify(item));
 
-            // Optimised Entry Row for Mobile (Prevents cutting)
             return `
                 <div class="entry-row" data-item="${safeItem}">
-                    <div class="col-icon">
-                        ${emoji}
-                    </div>
+                    <!-- Fixed Icon -->
+                    <div class="col-icon">${emoji}</div>
+                    
+                    <!-- Text (Middle) -->
                     <div class="col-text">
-                        <div class="text-main">${mainTitle}</div>
-                        <div class="text-sub">
-                            ${subTitle}
-                            <span class="text-[9px] bg-slate-100 px-1 rounded text-slate-400 border border-slate-200 ml-1">${item.Account}</span>
+                        <div class="text-[0.95rem] font-bold text-slate-700 truncate leading-snug">${mainTitle}</div>
+                        ${subDesc ? `<div class="text-[11px] text-slate-400 truncate leading-tight mt-0.5">${subDesc}</div>` : ''}
+                        <div class="text-[10px] font-semibold text-slate-400 mt-0.5 truncate uppercase tracking-wide">
+                            <span class="text-indigo-500">${mainCat}</span>
+                            ${subCat ? `<span class="mx-1 text-slate-300">•</span> ${subCat}` : ''}
                         </div>
                     </div>
+
+                    <!-- Amount (Right) -->
                     <div class="col-amt">
-                        <span class="amt-val ${amtColor}">₹${parseFloat(item.Amount).toLocaleString()}</span>
+                        <div class="text-[0.95rem] font-black ${amtColor} font-mono leading-snug">₹${parseFloat(item.Amount).toLocaleString()}</div>
+                        <div class="text-[9px] font-bold text-slate-400 mt-0.5 uppercase tracking-wide bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100 inline-block">${item.Account}</div>
                     </div>
-                </div>
-            `;
+                </div>`;
         }
+        // -----------------------
 
-        function calculateStats(data) {
-            let inc=0, exp=0, inv=0;
-            data.forEach(i => {
-                let v = parseFloat(String(i.Amount).replace(/,/g, '')) || 0;
-                if(i.Type === 'Income') inc += v;
-                else if(i.Type === 'Investment' || i.Category.includes('INVEST')) inv += v;
-                else exp += v;
-            });
-            const fmt = n => `₹${n.toLocaleString('en-IN')}`;
-            document.getElementById('net-balance').innerText = fmt(inc - exp - inv);
-            document.getElementById('total-income').innerText = fmt(inc);
-            document.getElementById('total-expense').innerText = fmt(exp);
-            document.getElementById('total-invest').innerText = fmt(inv);
-        }
-
-        function toggleChartLegend() {
-            showChartLegend = !showChartLegend;
-            renderStats();
-        }
-
-        function renderStats() {
-            const typeFilter = document.getElementById('statsType').value;
-            const groupFilter = document.getElementById('statsGroup').value;
+        function applyTheme(type) {
+            const header = document.getElementById('modalHeader');
+            const saveBtn = document.getElementById('saveBtn');
+            const typeSelect = document.getElementById('type');
             
-            const filtered = allData.filter(item => {
-                const d = parseDate(item.Date);
-                return d.getFullYear() === currentFilter.year && 
-                       d.getMonth() === currentFilter.month && 
-                       item.Type === typeFilter;
-            });
+            let selectBase = "appearance-none w-40 bg-white font-bold text-sm py-3 px-6 rounded-full text-center outline-none shadow-lg shadow-black/10 border-2 border-transparent focus:border-white/50 transition-all cursor-pointer ";
+            let headerBase = "py-8 px-6 transition-colors duration-300 flex flex-col items-center justify-center shrink-0 relative overflow-hidden ";
+            let btnBase = "flex-1 h-12 rounded-xl text-white font-bold text-sm tracking-wide shadow-lg active:scale-[0.98] transition flex items-center justify-center gap-2 ";
 
-            const totals = {};
-            let total = 0;
-
-            filtered.forEach(i => {
-                let v = parseFloat(String(i.Amount).replace(/,/g, '')) || 0;
-                let key;
-                if(groupFilter === 'sub_category') {
-                    key = i['Sub-Category'] ? i['Sub-Category'] : i.Category;
-                } else {
-                    key = i.Category;
-                }
-                key = key.replace(/[\p{Emoji}\u200d]+/u, '').trim();
-                
-                if(!totals[key]) totals[key] = 0;
-                totals[key] += v;
-                total += v;
-            });
-
-            document.getElementById('chartTotal').innerText = `₹${total.toLocaleString()}`;
-
-            const labels = Object.keys(totals);
-            const data = Object.values(totals);
-            const colors = ['#4f46e5', '#ef4444', '#f59e0b', '#10b981', '#8b5cf6', '#ec4899', '#06b6d4', '#84cc16'];
-
-            if(expenseChart) expenseChart.destroy();
-            const ctx = document.getElementById('expenseChart').getContext('2d');
-            expenseChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: labels,
-                    datasets: [{ data: data, backgroundColor: colors, borderWidth: 0 }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { 
-                        legend: { 
-                            display: showChartLegend,
-                            position: 'bottom',
-                            labels: {
-                                usePointStyle: true,
-                                padding: 15,
-                                font: { size: 10 }
-                            }
-                        } 
-                    },
-                    cutout: '70%'
-                }
-            });
-
-            const listDiv = document.getElementById('stats-list');
-            listDiv.innerHTML = '';
-            
-            Object.entries(totals).sort((a,b) => b[1]-a[1]).forEach(([k,v], i) => {
-                const pct = total > 0 ? ((v/total)*100).toFixed(1) : 0;
-                const col = colors[i % colors.length];
-                listDiv.innerHTML += `
-                    <div class="flex items-center justify-between p-3 bg-white border border-slate-100 rounded-xl">
-                        <div class="flex items-center gap-3">
-                            <div class="w-2.5 h-2.5 rounded-full" style="background:${col}"></div>
-                            <div>
-                                <p class="text-xs font-bold text-slate-700">${k}</p>
-                                <div class="w-20 h-1 bg-slate-100 rounded-full mt-1"><div style="width:${pct}%; background:${col}" class="h-full rounded-full"></div></div>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-xs font-bold text-slate-800">₹${v.toLocaleString()}</p>
-                            <p class="text-[9px] text-slate-400 font-bold">${pct}%</p>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        function switchTab(id, btn) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.getElementById('tab-'+id).classList.add('active');
-            document.querySelectorAll('nav button').forEach(b => {
-                b.classList.remove('text-indigo-600'); b.classList.add('text-slate-400');
-            });
-            btn.classList.add('text-indigo-600');
-            if(id === 'stats') renderStats();
+            if (type === 'Income') {
+                header.className = headerBase + 'bg-emerald-500';
+                saveBtn.className = btnBase + 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-200';
+                typeSelect.className = selectBase + "text-emerald-600";
+            } else if (type === 'Investment') {
+                header.className = headerBase + 'bg-blue-600';
+                saveBtn.className = btnBase + 'bg-blue-600 hover:bg-blue-700 shadow-blue-200';
+                typeSelect.className = selectBase + "text-blue-600";
+            } else {
+                header.className = headerBase + 'bg-rose-500';
+                saveBtn.className = btnBase + 'bg-rose-600 hover:bg-rose-700 shadow-rose-200';
+                typeSelect.className = selectBase + "text-rose-600";
+            }
         }
 
         function updateSubCategories() {
             const cat = document.getElementById('category').value;
             const sub = document.getElementById('sub_category');
-            sub.innerHTML = '<option value="">Select Sub-Category</option>';
+            sub.innerHTML = '<option value="">Select</option>';
             const list = categoryMap[cat] || ["Other"];
             list.forEach(i => {
                 const opt = document.createElement('option');
@@ -745,40 +506,70 @@
             });
         }
 
-        function openModal(mode, data) {
-            document.getElementById('entryModal').classList.add('active');
-            if(mode === 'edit') {
-                document.getElementById('modalTitle').innerText = 'Edit Transaction';
-                document.getElementById('saveBtn').innerText = 'UPDATE';
-                document.getElementById('deleteBtn').classList.remove('hidden');
-                
-                document.getElementById('entryId').value = data.ID;
-                document.getElementById('type').value = data.Type;
-                document.getElementById('amount').value = data.Amount;
-                document.getElementById('note').value = data.Note || '';
-                document.getElementById('description').value = data.Description;
-                document.getElementById('account').value = data.Account;
-                
-                document.getElementById('category').value = data.Category;
-                updateSubCategories();
-                document.getElementById('sub_category').value = data['Sub-Category'];
-                
-                const d = parseDate(data.Date);
-                const y = d.getFullYear();
-                const m = String(d.getMonth()+1).padStart(2,'0');
-                const day = String(d.getDate()).padStart(2,'0');
-                document.getElementById('date').value = `${y}-${m}-${day}`;
-            } else {
-                document.getElementById('modalTitle').innerText = 'New Transaction';
-                document.getElementById('saveBtn').innerText = 'SAVE';
-                document.getElementById('deleteBtn').classList.add('hidden');
-                document.getElementById('entryForm').reset();
-                document.getElementById('entryId').value = '';
-                
-                const today = new Date().toISOString().split('T')[0];
-                document.getElementById('date').value = today;
-            }
-        }
+        /* --- FIXED OPEN MODAL FUNCTION --- */
+		function openModal(mode, data) {
+			const modal = document.getElementById('entryModal');
+			modal.classList.add('active'); 
+
+			if (mode === 'edit') {
+				// --- EDIT MODE ---
+				document.getElementById('saveBtn').innerText = 'UPDATE';
+				document.getElementById('deleteBtn').classList.remove('hidden');
+
+				// 1. Fill Hidden ID
+				document.getElementById('entryId').value = data.ID;
+				
+				// 2. Fill Inputs
+				document.getElementById('amount').value = data.Amount;
+				document.getElementById('type').value = data.Type;
+				document.getElementById('account').value = data.Account;
+				
+				// 3. Category & Sub-Cat Logic
+				document.getElementById('category').value = data.Category;
+				updateSubCategories(); // Trigger sub-cat list population
+				document.getElementById('sub_category').value = data['Sub-Category'];
+				
+				// 4. Text Fields
+				document.getElementById('note').value = data.Note || '';
+				document.getElementById('description').value = data.Description || '';
+				
+				// 5. Date formatting
+				const d = parseDate(data.Date);
+				const y = d.getFullYear();
+				const m = String(d.getMonth()+1).padStart(2,'0');
+				const day = String(d.getDate()).padStart(2,'0');
+				document.getElementById('date').value = `${y}-${m}-${day}`;
+
+				// 6. Apply correct color theme
+				applyTheme(data.Type);
+
+			} else {
+				// --- ADD MODE (RESET EVERYTHING) ---
+				document.getElementById('saveBtn').innerText = 'SAVE';
+				document.getElementById('deleteBtn').classList.add('hidden');
+				
+				// 1. Clear ID (Critical for distinguishing Add vs Edit)
+				document.getElementById('entryId').value = '';
+
+				// 2. Clear Form Visuals manually to be safe
+				document.getElementById('amount').value = '';
+				document.getElementById('note').value = '';
+				document.getElementById('description').value = '';
+				
+				// 3. Reset Dropdowns
+				document.getElementById('type').value = 'Expense';
+				document.getElementById('account').selectedIndex = 0; 
+				document.getElementById('category').selectedIndex = 0;
+				document.getElementById('sub_category').innerHTML = '<option value="">Select</option>';
+
+				// 4. Set Date to Today
+				const today = new Date().toISOString().split('T')[0];
+				document.getElementById('date').value = today;
+				
+				// 5. Force Theme Reset to Expense (Red)
+				applyTheme('Expense');
+			}
+		}
 
         function closeModal() { document.getElementById('entryModal').classList.remove('active'); }
 
@@ -807,25 +598,128 @@
                 Note: document.getElementById('note').value
             };
 
-            try {
-                await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
-                closeModal();
-                fetchData();
-            } catch(e) { alert("Save Error"); }
-            finally { btn.innerText = original; btn.disabled = false; }
+            try { await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) }); closeModal(); fetchData(); } 
+            catch(e) { alert("Save Error"); } finally { btn.innerText = original; btn.disabled = false; }
         });
 
         async function deleteEntry() {
             if(!confirm("Delete?")) return;
             try {
-                await fetch(API_URL, { method: 'POST', body: JSON.stringify({action:'delete', ID:document.getElementById('entryId').value}) });
-                closeModal();
-                fetchData();
+                const id = document.getElementById('entryId').value;
+                await fetch(API_URL, { method: 'POST', body: JSON.stringify({action:'delete', ID: id}) });
+                closeModal(); fetchData();
             } catch(e) { alert("Delete failed"); }
         }
 
-        document.getElementById('entryModal').addEventListener('click', e => { if(e.target.id === 'entryModal') closeModal(); });
+        function parseDate(str) {
+            if(!str) return new Date();
+            if(str.toString().includes('/')) { const parts = str.split(' ')[0].split('/'); return new Date(parts[2], parts[1]-1, parts[0]); }
+            return new Date(str);
+        }
 
+        function initDynamicDropdown() {
+            const select = document.getElementById('monthFilter');
+            const currentSelection = select.value;
+            select.innerHTML = ''; 
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const uniqueMonths = new Set();
+            const today = new Date();
+            uniqueMonths.add(`${today.getFullYear()}-${today.getMonth()}`);
+
+            allData.forEach(item => {
+                if(!item.Date) return;
+                const d = parseDate(item.Date);
+                uniqueMonths.add(`${d.getFullYear()}-${d.getMonth()}`);
+            });
+            const sortedMonths = Array.from(uniqueMonths).sort((a,b) => {
+                const [y1, m1] = a.split('-').map(Number);
+                const [y2, m2] = b.split('-').map(Number);
+                return (y2 - y1) || (m2 - m1);
+            });
+            sortedMonths.forEach(key => {
+                const [year, monthIdx] = key.split('-').map(Number);
+                const yy = year.toString().slice(-2);
+                const label = `${monthNames[monthIdx]} ${yy}`;
+                const option = document.createElement('option');
+                option.value = key; option.text = label; select.appendChild(option);
+            });
+            if (currentSelection && Array.from(select.options).some(o => o.value === currentSelection)) { select.value = currentSelection; }
+            else if(select.options.length > 0) { select.selectedIndex = 0; handleMonthChange(); }
+        }
+
+        function handleMonthChange() {
+            const val = document.getElementById('monthFilter').value;
+            if(!val) return;
+            const [y, m] = val.split('-');
+            currentFilter = { year: parseInt(y), month: parseInt(m) };
+            applyFilter();
+        }
+
+        function applyFilter() {
+            const filtered = allData.filter(item => {
+                const d = parseDate(item.Date);
+                return d.getFullYear() === currentFilter.year && d.getMonth() === currentFilter.month;
+            });
+            filtered.sort((a, b) => parseDate(b.Date) - parseDate(a.Date));
+            renderList(filtered);
+            calculateStats(filtered);
+            if(document.getElementById('tab-stats').style.display === 'block') renderStats();
+        }
+
+        function calculateStats(data) {
+            let inc=0, exp=0, inv=0;
+            data.forEach(i => {
+                let v = parseFloat(String(i.Amount).replace(/,/g, '')) || 0;
+                if(i.Type === 'Income') inc += v;
+                else if(i.Type === 'Investment' || i.Category.includes('INVEST')) inv += v;
+                else exp += v;
+            });
+            const fmt = n => `₹${n.toLocaleString('en-IN')}`;
+            document.getElementById('net-balance').innerText = fmt(inc - exp - inv);
+            document.getElementById('total-income').innerText = fmt(inc);
+            document.getElementById('total-expense').innerText = fmt(exp);
+            document.getElementById('total-invest').innerText = fmt(inv);
+        }
+
+        function toggleChartLegend() { showChartLegend = !showChartLegend; renderStats(); }
+        function renderStats() {
+            const typeFilter = document.getElementById('statsType').value;
+            const groupFilter = document.getElementById('statsGroup').value;
+            const filtered = allData.filter(item => {
+                const d = parseDate(item.Date);
+                return d.getFullYear() === currentFilter.year && d.getMonth() === currentFilter.month && item.Type === typeFilter;
+            });
+            const totals = {}; let total = 0;
+            filtered.forEach(i => {
+                let v = parseFloat(String(i.Amount).replace(/,/g, '')) || 0;
+                let key = (groupFilter === 'sub_category') ? (i['Sub-Category'] || i.Category) : i.Category;
+                key = key.replace(/[\p{Emoji}\u200d]+/u, '').trim();
+                if(!totals[key]) totals[key] = 0; totals[key] += v; total += v;
+            });
+            document.getElementById('chartTotal').innerText = `₹${total.toLocaleString()}`;
+            const labels = Object.keys(totals); const data = Object.values(totals);
+            const colors = ['#4f46e5', '#ef4444', '#f59e0b', '#10b981', '#8b5cf6', '#ec4899', '#06b6d4', '#84cc16'];
+            if(expenseChart) expenseChart.destroy();
+            const ctx = document.getElementById('expenseChart').getContext('2d');
+            expenseChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: { labels: labels, datasets: [{ data: data, backgroundColor: colors, borderWidth: 0 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: showChartLegend, position: 'bottom', labels: { usePointStyle: true, padding: 15, font: { size: 10 } } } }, cutout: '70%' }
+            });
+            const listDiv = document.getElementById('stats-list'); listDiv.innerHTML = '';
+            Object.entries(totals).sort((a,b) => b[1]-a[1]).forEach(([k,v], i) => {
+                const pct = total > 0 ? ((v/total)*100).toFixed(1) : 0;
+                const col = colors[i % colors.length];
+                listDiv.innerHTML += `<div class="flex items-center justify-between p-3 bg-white border border-slate-100 rounded-xl"><div class="flex items-center gap-3"><div class="w-2.5 h-2.5 rounded-full" style="background:${col}"></div><div><p class="text-xs font-bold text-slate-700">${k}</p><div class="w-20 h-1 bg-slate-100 rounded-full mt-1"><div style="width:${pct}%; background:${col}" class="h-full rounded-full"></div></div></div></div><div class="text-right"><p class="text-xs font-bold text-slate-800">₹${v.toLocaleString()}</p><p class="text-[9px] text-slate-400 font-bold">${pct}%</p></div></div>`;
+            });
+        }
+        function switchTab(id, btn) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-'+id).classList.add('active');
+            document.querySelectorAll('nav button').forEach(b => { b.classList.remove('text-indigo-600'); b.classList.add('text-slate-400'); });
+            btn.classList.add('text-indigo-600');
+            if(id === 'stats') renderStats();
+        }
     </script>
 </body>
 </html>
