@@ -524,7 +524,7 @@
 		</div>
 
 <script>
-    const API_URL = 'https://script.google.com/macros/s/AKfycbwQyXIR9D_nxLb4iCCZKjPniz0484E1y5QCjviQ0eGc5qvjYA7BO4rJ-Omhcz9TEyPm/exec'; 
+    const API_URL = 'https://script.google.com/macros/s/AKfycbwyzUmUZnZPBPb8gX637NNLttEE_Wkb_zuZutB9k8EWMKrYE7bnbiWzrtydQ_Y8PZSW/exec'; 
     const CACHE_KEY = 'finance_v3_cache';
     let allData = [];
     let currentFilter = { year: new Date().getFullYear(), month: new Date().getMonth() };
@@ -659,10 +659,18 @@
 
     document.getElementById('entryForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const btn = document.getElementById('saveBtn'); const originalText = btn.innerText; btn.innerText = 'SAVING...'; btn.disabled = true;
+        const btn = document.getElementById('saveBtn');
+        const originalText = btn.innerText;
+        btn.innerText = 'SAVING...'; 
+        btn.disabled = true;
+
+        // Date Formatting
         const rDate = document.getElementById('date').value;
-        const dObj = new Date(rDate); const hh = new Date().getHours().toString().padStart(2,'0'); const mm = new Date().getMinutes().toString().padStart(2,'0');
+        const dObj = new Date(rDate);
+        const hh = new Date().getHours().toString().padStart(2,'0');
+        const mm = new Date().getMinutes().toString().padStart(2,'0');
         const fDate = `${String(dObj.getDate()).padStart(2,'0')}/${String(dObj.getMonth()+1).padStart(2,'0')}/${dObj.getFullYear()} ${hh}:${mm}:00`;
+
         const payload = {
             action: document.getElementById('entryId').value ? 'edit' : 'add',
             ID: document.getElementById('entryId').value,
@@ -675,7 +683,28 @@
             Description: document.getElementById('description').value,
             Note: document.getElementById('note').value
         };
-        try { await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) }); closeModal(); fetchData(); } catch(e) { alert("Error saving data!"); } finally { btn.innerText = originalText; btn.disabled = false; }
+
+        try {
+            const response = await fetch(API_URL, { 
+                method: 'POST', 
+                body: JSON.stringify(payload) 
+            });
+            
+            const result = await response.json();
+            
+            if(result.status === 'success') {
+                closeModal();
+                fetchData(); // Refresh Data immediately
+            } else {
+                alert("Server Error: " + result.message);
+            }
+        } catch(e) { 
+            console.error(e);
+            alert("Network Error! Check Console."); 
+        } finally { 
+            btn.innerText = originalText; 
+            btn.disabled = false; 
+        }
     });
 
     async function deleteEntry() {
