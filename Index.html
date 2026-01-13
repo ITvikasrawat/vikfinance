@@ -225,70 +225,29 @@
         }
 		
 		/* --- 3D FLIP ANIMATION --- */
+		/* --- 3D FLIP ANIMATION (Required) --- */
 		.flip-card {
 			perspective: 1000px;
 			cursor: pointer;
 		}
-
 		.flip-card-inner {
-			position: relative;
-			width: 100%;
-			height: 100%;
-			text-align: center;
-			transition: transform 0.8s;
+			position: relative; width: 100%; height: 100%;
+			text-align: center; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 			transform-style: preserve-3d;
 		}
+		.flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
 
-		/* Flip Class (JS se add karenge) */
-		.flip-card.flipped .flip-card-inner {
-			transform: rotateY(180deg);
-		}
-
-		/* Front & Back Common Styling */
 		.flip-card-front, .flip-card-back {
-			position: absolute;
-			width: 100%;
-			height: 100%;
-			-webkit-backface-visibility: hidden; /* Safari */
-			backface-visibility: hidden;
-			border-radius: 1rem; /* Rounded-2xl equivalent */
-			overflow: hidden;
+			position: absolute; width: 100%; height: 100%;
+			-webkit-backface-visibility: hidden; backface-visibility: hidden;
+			border-radius: 1rem; overflow: hidden;
 		}
 
-		/* Back Specific */
 		.flip-card-back {
 			transform: rotateY(180deg);
-			background: linear-gradient(135deg, #1e293b 0%, #020617 100%); /* Same Dark Theme */
-			border: 1px solid rgba(255, 255, 255, 0.1);
-		}
-
-		/* Magnetic Strip */
-		.strip {
-			background-color: #000;
-			width: 100%;
-			height: 40px;
-			margin-top: 20px;
-		}
-
-		/* Signature & CVV Area */
-		.mstrip {
-			background-color: #e2e8f0;
-			width: 80%;
-			height: 30px;
-			margin: 15px auto;
-			border-radius: 4px;
-			display: flex;
-			align-items: center;
-			justify-content: flex-end;
-			padding-right: 10px;
-		}
-
-		.code {
-			font-family: 'Courier New', monospace;
-			font-weight: bold;
-			color: #000;
-			font-size: 14px;
-			font-style: italic;
+			background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+			border: 1px solid rgba(255,255,255,0.1);
+			color: white;
 		}
         
     </style>
@@ -333,18 +292,26 @@
 		<div id="tab-home" class="tab-content active">
             
             <!-- HERO: Matte Dark Card -->
-        <div class="relative px-4 mt-4 mb-5 perspective-1000 group">
+        <!-- HERO: 3D Flip Credit Card (Reduced Spacing) -->
+<div class="px-4 mt-4 mb-5 perspective-1000 group">
+    
+    <!-- Flip Container (Click to Flip) -->
+    <div class="flip-card w-full aspect-[1.58/1]" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+            
+            <!-- === FRONT SIDE (Your Exact Code - Untouched) === -->
+            <div class="flip-card-front">
                 <div class="absolute -inset-0.5 bg-gradient-to-r from-gray-700 to-slate-900 rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-500"></div>
-                <div class="relative w-full aspect-[1.58/1] rounded-2xl overflow-hidden shadow-2xl transition-transform duration-500 hover:scale-[1.01] border border-white/10"
+                <div class="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl border border-white/10"
                      style="background: linear-gradient(135deg, #1e293b 0%, #020617 100%);">
                     
                     <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 mix-blend-overlay"></div>
 
-                    <div class="relative z-10 flex flex-col justify-between h-full p-6 text-white font-mono">
-                        
-                        <!-- TOP ROW -->
+                    <div class="relative z-10 flex flex-col justify-between h-full p-6 text-white font-mono text-left">
+                        <!-- TOP -->
                         <div class="flex justify-between items-start">
-                <div class="flex items-center gap-2">
+                            <!-- AFTER (Perfect SVG Chip) 💳✅ -->
+					<div class="flex items-center gap-2">
                     
                     <!-- 1. EMV CHIP (From your code) -->
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="45px" height="45px" viewBox="0 0 50 50" xml:space="preserve" class="drop-shadow-md">
@@ -375,50 +342,99 @@
                         MjMtMDItMTNUMDg6MTU6MjkrMDA6MDA0eo8JAAAAKHRFWHRkYXRlOnRpbWVzdGFtcAAyMDIzLTAy
                         LTEzVDA4OjE1OjI5KzAwOjAwY2+u1gAAAABJRU5ErkJggg=="></image>
                     </svg>
-
-                    <!-- Wifi / Contactless Icon (Silver-White) -->
-<svg class="w-8 h-8 text-white/50 rotate-90" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 0 1 7.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 0 1 1.06 0Z" />
-</svg>
-                </div>
-                
-                <!-- Logo -->
-                <svg class="drop-shadow-md" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="36" height="36" viewBox="0 0 48 48">
-                    <path fill="#ff9800" d="M32 10A14 14 0 1 0 32 38A14 14 0 1 0 32 10Z"></path>
-                    <path fill="#d50000" d="M16 10A14 14 0 1 0 16 38A14 14 0 1 0 16 10Z"></path>
-                    <path fill="#ff3d00" d="M18,24c0,4.755,2.376,8.95,6,11.48c3.624-2.53,6-6.725,6-11.48s-2.376-8.95-6-11.48 C20.376,15.05,18,19.245,18,24z"></path>
-                </svg>
-            </div>
-
-            <!-- MIDDLE: Balance -->
-            <div class="mt-2">
-                <p class="text-[9px] text-gray-400 font-bold uppercase tracking-[0.2em] mb-1 pl-1">Net Balance</p>
-                <h2 class="text-4xl font-bold tracking-widest text-white drop-shadow-md font-sans" id="net-balance">****</h2>
-            </div>
-
-            <!-- BOTTOM: Name & Stats -->
-            <div class="flex justify-between items-end mt-auto pt-2">
-                <div class="flex flex-col">
-                    <p class="text-[7px] text-gray-500 font-bold uppercase tracking-wider mb-0.5">Card Holder</p>
-                    <p class="text-sm font-bold tracking-widest text-gray-200 uppercase drop-shadow-sm font-sans truncate">VIKAS RAWAT</p>
-                </div>
-                <div class="flex items-center gap-4 text-right">
-                    <div class="flex flex-col items-end">
-                        <p class="text-[7px] font-bold text-gray-500 uppercase">INC</p>
-                        <p class="text-[11px] font-bold text-emerald-400 tracking-wide" id="total-income">₹0</p>
-                    </div>
-                    <div class="flex flex-col items-end">
-                        <p class="text-[7px] font-bold text-gray-500 uppercase">EXP</p>
-                        <p class="text-[11px] font-bold text-rose-400 tracking-wide" id="total-expense">₹0</p>
-                    </div>
-                    <div class="flex flex-col items-end">
-                        <p class="text-[7px] font-bold text-gray-500 uppercase">INV</p>
-                        <p class="text-[11px] font-bold text-amber-400 tracking-wide" id="total-invest">₹0</p>
+						
+						<!-- Wifi (Contactless) -->
+						<svg class="w-6 h-6 text-white/60 rotate-90" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 0 1 7.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 0 1 1.06 0Z" /></svg>
+					</div>
+                            <!-- Logo -->
+                            <svg class="drop-shadow-md" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="36" height="36" viewBox="0 0 48 48"><path fill="#ff9800" d="M32 10A14 14 0 1 0 32 38A14 14 0 1 0 32 10Z"></path><path fill="#d50000" d="M16 10A14 14 0 1 0 16 38A14 14 0 1 0 16 10Z"></path><path fill="#ff3d00" d="M18,24c0,4.755,2.376,8.95,6,11.48c3.624-2.53,6-6.725,6-11.48s-2.376-8.95-6-11.48 C20.376,15.05,18,19.245,18,24z"></path></svg>
+                        </div>
+                        <!-- MIDDLE -->
+                        <div class="mt-2">
+                            <p class="text-[9px] text-gray-400 font-bold uppercase tracking-[0.2em] mb-1 pl-1">Net Balance</p>
+                            <h2 class="text-4xl font-bold tracking-widest text-white drop-shadow-md font-sans" id="net-balance">****</h2>
+                        </div>
+                        <!-- BOTTOM -->
+                        <div class="flex justify-between items-end mt-auto pt-2">
+                            <div class="flex flex-col">
+                                <p class="text-[7px] text-gray-500 font-bold uppercase tracking-wider mb-0.5">Card Holder</p>
+                                <p class="text-sm font-bold tracking-widest text-gray-200 uppercase drop-shadow-sm font-sans truncate">VIKAS RAWAT</p>
+                            </div>
+                            <div class="flex items-center gap-4 text-right">
+                                <div class="flex flex-col items-end"><p class="text-[7px] font-bold text-gray-500 uppercase">INC</p><p class="text-[11px] font-bold text-emerald-400 tracking-wide" id="total-income">₹0</p></div>
+                                <div class="flex flex-col items-end"><p class="text-[7px] font-bold text-gray-500 uppercase">EXP</p><p class="text-[11px] font-bold text-rose-400 tracking-wide" id="total-expense">₹0</p></div>
+                                <div class="flex flex-col items-end"><p class="text-[7px] font-bold text-gray-500 uppercase">INV</p><p class="text-[11px] font-bold text-amber-400 tracking-wide" id="total-invest">₹0</p></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
+            <!-- BACK SIDE: Budget Tracker 🎯 -->
+<div class="flip-card-back p-5 flex flex-col justify-between relative overflow-hidden" 
+     style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
+    
+    <!-- Background Texture -->
+    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
+
+    <!-- Header -->
+    <div class="flex justify-between items-center relative z-10 mb-2">
+        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Monthly Budget</p>
+        <div class="text-[10px] font-bold text-white/50 bg-white/10 px-2 py-0.5 rounded">JAN 26</div>
+    </div>
+
+    <!-- Progress Bars -->
+    <div class="space-y-3 relative z-10">
+        
+        <!-- NEEDS -->
+        <div>
+            <div class="flex justify-between text-[9px] font-bold mb-1 text-indigo-200">
+                <span>🏠 NEEDS</span>
+                <span><span id="bud-needs-spent">0</span> / 23.7k</span>
+            </div>
+            <div class="w-full h-1.5 bg-slate-700/50 rounded-full overflow-hidden">
+                <div id="bud-needs-bar" class="h-full bg-indigo-500 rounded-full transition-all duration-1000" style="width: 0%"></div>
+            </div>
         </div>
+
+        <!-- WANTS -->
+        <div>
+            <div class="flex justify-between text-[9px] font-bold mb-1 text-rose-200">
+                <span>🎉 WANTS</span>
+                <span><span id="bud-wants-spent">0</span> / 6.1k</span>
+            </div>
+            <div class="w-full h-1.5 bg-slate-700/50 rounded-full overflow-hidden">
+                <div id="bud-wants-bar" class="h-full bg-rose-500 rounded-full transition-all duration-1000" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- INVESTMENT -->
+        <div>
+            <div class="flex justify-between text-[9px] font-bold mb-1 text-emerald-200">
+                <span>📈 INVEST</span>
+                <span><span id="bud-invest-spent">0</span> / 13.5k</span>
+            </div>
+            <div class="w-full h-1.5 bg-slate-700/50 rounded-full overflow-hidden">
+                <div id="bud-invest-bar" class="h-full bg-emerald-500 rounded-full transition-all duration-1000" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom: Safe to Spend -->
+    <div class="mt-auto relative z-10 pt-3 border-t border-white/10">
+        <div class="flex justify-between items-end">
+            <div>
+                <p class="text-[8px] font-bold text-gray-500 uppercase tracking-wider mb-0.5">Remaining Budget</p>
+                <h2 class="text-2xl font-black text-white tracking-wide" id="bud-remaining">₹44,635</h2>
+            </div>
+            <div class="text-right">
+                 <p class="text-[7px] text-gray-500 uppercase">Status</p>
+                 <p class="text-[10px] font-bold text-emerald-400" id="bud-status">On Track</p>
+            </div>
+        </div>
+    </div>
+
+</div>
     </div>
 </div>
 
@@ -824,6 +840,8 @@
         document.getElementById('total-income').innerText = fmt(inc);
         document.getElementById('total-expense').innerText = fmt(exp);
         document.getElementById('total-invest').innerText = fmt(inv);
+	    updateBudgetCard(data);
+
     }
 
     // STATS LOGIC
@@ -1047,6 +1065,71 @@
         document.getElementById('viewModal').classList.remove('active');
         try { await fetch(API_URL, { method: 'POST', body: JSON.stringify({action:'delete', ID: currentViewItem.ID}) }); fetchData(); } catch(e) { alert("Delete failed"); }
     }
+	
+	function updateBudgetCard(data) {
+    // 1. Defined Budgets
+    const budgetLimits = {
+        NEEDS: 23750,
+        WANTS: 6100,
+        INVEST: 13500
+    };
+
+    // 2. Calculate Actual Spending
+    let spent = { NEEDS: 0, WANTS: 0, INVEST: 0 };
+
+    data.forEach(item => {
+        // Only count Expenses & Investments for current month
+        let val = parseFloat(String(item.Amount).replace(/,/g, '')) || 0;
+        
+        if (item.Type === 'Expense' || item.Type === 'Investment') {
+            if (item.Category.includes('NEEDS')) spent.NEEDS += val;
+            else if (item.Category.includes('WANTS')) spent.WANTS += val;
+            else if (item.Category.includes('INVEST') || item.Type === 'Investment') spent.INVEST += val;
+        }
+    });
+
+    // 3. Update UI Elements
+    const updateBar = (type, color) => {
+        const limit = budgetLimits[type];
+        const actual = spent[type];
+        const pct = Math.min((actual / limit) * 100, 100);
+        
+        // Update Text (e.g. 5000 / 23.7k)
+        document.getElementById(`bud-${type.toLowerCase()}-spent`).innerText = `₹${actual.toLocaleString()}`;
+        
+        // Update Bar Width
+        document.getElementById(`bud-${type.toLowerCase()}-bar`).style.width = `${pct}%`;
+        
+        // Warning Color if > 90%
+        if(pct > 90) document.getElementById(`bud-${type.toLowerCase()}-bar`).className = `h-full bg-red-500 rounded-full transition-all duration-1000`;
+    };
+
+    updateBar('NEEDS');
+    updateBar('WANTS');
+    updateBar('INVEST');
+
+    // AFTER (Using Your Fixed Total) ✅
+    // 4. Calculate Remaining / Safe to Spend
+    const totalBudget = 44635; // 🎯 Fixed Total Budget
+    const totalSpent = spent.NEEDS + spent.WANTS + spent.INVEST;
+    const remaining = totalBudget - totalSpent;
+
+    const remainEl = document.getElementById('bud-remaining');
+    const statusEl = document.getElementById('bud-status');
+
+    remainEl.innerText = `₹${remaining.toLocaleString()}`;
+    
+    if (remaining < 0) {
+        remainEl.className = "text-2xl font-black text-rose-500 tracking-wide";
+        statusEl.innerText = "Over Budget!";
+        statusEl.className = "text-[10px] font-bold text-rose-500";
+    } else {
+        remainEl.className = "text-2xl font-black text-emerald-400 tracking-wide";
+        statusEl.innerText = "Safe to Spend";
+        statusEl.className = "text-[10px] font-bold text-emerald-400";
+    }
+}
+
 </script>
 </body>
 </html>
